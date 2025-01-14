@@ -10,7 +10,7 @@ router = Router()
 
 @router.message(Command("start"))
 async def cmd_start(message: Message):
-    await message.reply("Hello, tell us about")
+    await message.reply("Hello, tell us abouts")
 
 
 # @router.message(Command("start"))
