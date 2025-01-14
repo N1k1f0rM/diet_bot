@@ -1,0 +1,6 @@
+.idea
+.vscode
+.git
+**/__pycahe__
+*.pyc
+.env
