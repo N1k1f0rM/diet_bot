@@ -158,3 +158,43 @@ async def cmd_info(message: Message):
         )
     else:
         await message.reply("У вас нет сохраненных данных.")
+
+
+@router.message(Command("calc_my_norm"))
+async def cmd_calc(message: Message):
+    if not len(user_data) == 0:
+        pass
+    else:
+        await message.reply("Вы не ввели свои данные!")
+
+
+@router.message(Command("log_water"))
+async def cmd_log_water(message: Message):
+    if not len(user_data) == 0:
+        pass
+    else:
+        await message.reply("Вы не ввели свои данные!")
+
+
+@router.message(Command("log_food"))
+async def cmd_log_food(message: Message):
+    if not len(user_data) == 0:
+        pass
+    else:
+        await message.reply("Вы не ввели свои данные!")
+
+
+@router.message(Command("log_workout"))
+async def cmd_log_workout(message: Message):
+    if not len(user_data) == 0:
+        pass
+    else:
+        await message.reply("Вы не ввели свои данные!")
+
+
+@router.message(Command("check_progress"))
+async def cmd_check_progress(message: Message):
+    if not len(user_data) == 0:
+        pass
+    else:
+        await message.reply("Вы не ввели свои данные!")

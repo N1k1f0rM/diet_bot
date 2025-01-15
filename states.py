@@ -11,6 +11,11 @@ class Profile(StatesGroup):
     aim = State()
 
 
+class NormalDiet(StatesGroup):
+    water_norm = State()
+    calories_norm = State()
+
+
 class Water(StatesGroup):
     volume = State()
 

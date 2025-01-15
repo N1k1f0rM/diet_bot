@@ -13,7 +13,12 @@ dp.include_router(router)
 async def set_comands(bots: Bot):
     commands = [
         BotCommand(command="start", description="Начать работу с ботом"),
-        BotCommand(command="about", description="Показать информацию о себе")
+        BotCommand(command="about", description="Показать информацию о себе"),
+        BotCommand(command="calc_my_norm", description="Посчитать мою норму"),
+        BotCommand(command="log_water", description="Внести кол-во выпитой воды"),
+        BotCommand(command="log_food", description="Внести еду"),
+        BotCommand(command="log_workout", description="Записать тренировку"),
+        BotCommand(command="check_progress", description="Посмотреть прогресс на сегодня")
     ]
 
     await bots.set_my_commands(commands)
