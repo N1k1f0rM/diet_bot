@@ -9,3 +9,11 @@ class Profile(StatesGroup):
     activity = State()
     city = State()
     aim = State()
+
+
+class Water(StatesGroup):
+    volume = State()
+
+
+class Calories(StatesGroup):
+    colorie = State()

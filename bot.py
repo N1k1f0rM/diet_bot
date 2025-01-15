@@ -1,10 +1,10 @@
 import asyncio
 from aiogram import Bot, Dispatcher
-from config import TOKEN
+from config import TOKEN, Secrets
 from handlers import router, user_data
 
 
-bot = Bot(token=TOKEN)
+bot = Bot(token=Secrets.BOT_TOKEN)
 dp = Dispatcher()
 dp.include_router(router)
 
