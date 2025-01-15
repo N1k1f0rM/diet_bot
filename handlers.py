@@ -92,13 +92,14 @@ async def process_city(message: Message, state: FSMContext):
         f"Рост: {height} см\n"
         f"Уровень активности: {activity}\n"
         f"Город: {city}\n"
-        f"Цель: {aim}"
+        f"Цель: {aim}\n"
+        f"Всё праивильно?"
     )
 
     await state.clear()
 
 
-@router.message(Command("Tell me what am I about"))
+@router.message(Command("about"))
 async def cmd_info(message: Message):
     user_id = message.from_user.id
     user_info = user_data.get(user_id)
