@@ -1,13 +1,10 @@
-from ftplib import all_errors
-
 import aiohttp
 from aiogram import Router
-from aiogram.types import (Message, InlineKeyboardMarkup, InlineKeyboardButton, KeyboardButton,
-                           MessageAutoDeleteTimerChanged, ReplyKeyboardMarkup, BotCommand, MenuButtonCommands)
+from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from states import Profile
+from back_weather import current_temp
 
 
 router = Router()
@@ -15,7 +12,10 @@ user_data = {}
 
 
 @router.message(Command("start"))
-async def cmd_nstart(message: Message, state: FSMContext):
+async def cmd_start(message: Message, state: FSMContext):
+
+    global user_data
+    user_data = {}
     await message.reply("Привет, рады вас видеть, как вас зовут?")
     await state.set_state(Profile.name)
 
@@ -162,8 +162,34 @@ async def cmd_info(message: Message):
 
 @router.message(Command("calc_my_norm"))
 async def cmd_calc(message: Message):
+
+    user_id = message.from_user.id
+    user_info = user_data.get(user_id)
+
     if not len(user_data) == 0:
-        pass
+        if current_temp(user_info["city"]) > 25.0:
+            user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"] - 1000
+        else:
+            user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"]
+
+        user_info["norm_calories"] = 10 * user_info["weight"] + 6.25 * user_info["height"] - 5 * user_info["age"]
+
+        await message.reply(
+            f"Ваши дневные нормы:\n"
+            f"Норма воды: {user_info['norm_water']}\n"
+            f"Норма калорий: {user_info['norm_calories']}\n"
+        )
+    else:
+        await message.reply("Вы не ввели свои данные!")
+
+
+@router.message(Command("show_my_norm"))
+async def cmd_show_calc(message: Message):
+    if not len(user_data) == 0:
+        await message.reply(
+            f"Ваши дневные нормы:\n"
+            f"Норма воды: {user_data['norm_water']}\n"
+            f"Норма калорий: {user_data['norm_calories']}\n")
     else:
         await message.reply("Вы не ввели свои данные!")
 

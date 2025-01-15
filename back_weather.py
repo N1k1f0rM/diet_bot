@@ -19,8 +19,10 @@ def get_cords(city: str) -> Optional[Tuple[float, float]]:
     error_logger.error(f"Ошибка {e}")
 
 
-def current_temp(lat: float, lon: float) -> float:
+def current_temp(city: str) -> float:
   try:
+
+    lat, lon = get_cords(city)
 
     response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&exclude=minutely,hourly,daily,alerts&units=metric&appid={Secrets.WEATHER_TOKEN}")
     temperature = response.json()["main"]["temp"]
