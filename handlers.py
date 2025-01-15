@@ -166,7 +166,7 @@ async def cmd_calc(message: Message):
     user_id = message.from_user.id
     user_info = user_data.get(user_id)
 
-    if user_data:
+    if user_info:
         if current_temp(user_info["city"]) >= 25.0:
             user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"] - 1000
         else:
@@ -188,7 +188,7 @@ async def cmd_show_calc(message: Message):
     user_id = message.from_user.id
     user_info = user_data.get(user_id)
 
-    if not len(user_data) == 0:
+    if user_info:
         await message.reply(
             f"Ваши дневные нормы:\n"
             f"Норма воды: {user_info['norm_water']}\n"
