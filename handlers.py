@@ -13,16 +13,16 @@ router = Router()
 user_data = {}
 
 
-def create_keyboard():
-    keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(KeyboardButton("/start"))
-    keyboard.add(KeyboardButton("/about"))
-    return keyboard
+# def create_keyboard():
+#     keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+#     keyboard.add(KeyboardButton("/start"))
+#     keyboard.add(KeyboardButton("/about"))
+#     return keyboard
 
 
 @router.message(Command("start"))
 async def cmd_nstart(message: Message, state: FSMContext):
-    await message.reply("Привет, рады вас видеть, как вас зовут?", reply_markup=create_keyboard())
+    await message.reply("Привет, рады вас видеть, как вас зовут?")
     await state.set_state(Profile.name)
 
 
