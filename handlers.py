@@ -1,6 +1,7 @@
-import aiohttp
 from aiogram import Router
-from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, MessageAutoDeleteTimerChanged
+from aiogram.types import (Message, InlineKeyboardMarkup, InlineKeyboardButton,
+                           MessageAutoDeleteTimerChanged, ReplyKeyboardMarkup,
+                           KeyboardButton)
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from states import Profile
@@ -10,9 +11,14 @@ router = Router()
 user_data = {}
 
 
+main_keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+main_keyboard.add(KeyboardButton("Информация"))
+main_keyboard.add(KeyboardButton("Начать"))
+
+
 @router.message(Command("start"))
 async def cmd_nstart(message: Message, state: FSMContext):
-    await message.reply("Привет, рады видеть тебя, как тебя зовут?")
+    await message.reply("Привет, рады видеть тебя, как тебя зовут?", reply_markup=main_keyboard)
     await state.set_state(Profile.name)
 
 
