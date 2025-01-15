@@ -1,6 +1,6 @@
 import asyncio
 from aiogram import Bot, Dispatcher
-from config import TOKEN, Secrets
+from config import Secrets
 from handlers import router, user_data
 
 

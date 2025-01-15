@@ -16,4 +16,4 @@ class Water(StatesGroup):
 
 
 class Calories(StatesGroup):
-    colorie = State()
+    calorie = State()
