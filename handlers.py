@@ -166,8 +166,8 @@ async def cmd_calc(message: Message):
     user_id = message.from_user.id
     user_info = user_data.get(user_id)
 
-    if not len(user_data) == 0:
-        if current_temp(user_info["city"]) > 25.0:
+    if user_data:
+        if current_temp(user_info["city"]) >= 25.0:
             user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"] - 1000
         else:
             user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"]
@@ -185,11 +185,14 @@ async def cmd_calc(message: Message):
 
 @router.message(Command("show_my_norm"))
 async def cmd_show_calc(message: Message):
+    user_id = message.from_user.id
+    user_info = user_data.get(user_id)
+
     if not len(user_data) == 0:
         await message.reply(
             f"Ваши дневные нормы:\n"
-            f"Норма воды: {user_data['norm_water']}\n"
-            f"Норма калорий: {user_data['norm_calories']}\n")
+            f"Норма воды: {user_info['norm_water']}\n"
+            f"Норма калорий: {user_info['norm_calories']}\n")
     else:
         await message.reply("Вы не ввели свои данные!")
 
