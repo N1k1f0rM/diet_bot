@@ -3,21 +3,15 @@ from ftplib import all_errors
 import aiohttp
 from aiogram import Router
 from aiogram.types import (Message, InlineKeyboardMarkup, InlineKeyboardButton, KeyboardButton,
-                           MessageAutoDeleteTimerChanged, ReplyKeyboardMarkup)
+                           MessageAutoDeleteTimerChanged, ReplyKeyboardMarkup, BotCommand, MenuButtonCommands)
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
+from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from states import Profile
 
 
 router = Router()
 user_data = {}
-
-
-# def create_keyboard():
-#     keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-#     keyboard.add(KeyboardButton("/start"))
-#     keyboard.add(KeyboardButton("/about"))
-#     return keyboard
 
 
 @router.message(Command("start"))
@@ -107,7 +101,7 @@ async def process_age(message: Message, state: FSMContext):
 @router.message(Profile.city)
 async def process_city(message: Message, state: FSMContext):
 
-    if not message.text.isdigit():
+    if not message.text.isalpha():
         await message.reply("Пожалуйста, корректно введите название города.")
         return
 
