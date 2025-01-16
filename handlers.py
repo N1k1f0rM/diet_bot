@@ -228,21 +228,13 @@ async def cmd_log_food(message: Message):
         cals = get_food_info(message.text.split()[1])
         user_info["norm_calories"] -= float(cals["calories"])
 
-        await message.reply(f"Вы съели {cals["name"]}, осталось съесть {cals["calories"]}")
+        await message.reply(f"Вы съели {cals["name"]}, осталось съесть {user_info["norm_calories"]}")
     else:
         await message.reply("Вы не ввели свои данные!")
 
 
 @router.message(Command("log_workout"))
 async def cmd_log_workout(message: Message):
-    if not len(user_data) == 0:
-        pass
-    else:
-        await message.reply("Вы не ввели свои данные!")
-
-
-@router.message(Command("check_progress"))
-async def cmd_check_progress(message: Message):
     if not len(user_data) == 0:
         pass
     else:
