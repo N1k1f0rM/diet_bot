@@ -174,11 +174,11 @@ async def cmd_calc(message: Message):
 
     if user_info:
         if user_info["weather"] >= 25.0:
-            user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"] - 1000
+            user_info["norm_water"] = int(user_info["weight"]) * 30 + 500 * int(user_info["activity"]) - 1000
         else:
-            user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"]
+            user_info["norm_water"] = int(user_info["weight"]) * 30 + 500 * int(user_info["activity"])
 
-        user_info["norm_calories"] = 10 * user_info["weight"] + 6.25 * user_info["height"] - 5 * user_info["age"]
+        user_info["norm_calories"] = 10 * int(user_info["weight"]) + 6.25 * int(user_info["height"]) - 5 * int(user_info["age"])
 
         await message.reply(
             f"Ваши дневные нормы:\n"
