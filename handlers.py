@@ -4,6 +4,7 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from states import Profile
 from back_weather import current_temp
+from back_food import get_food_info
 from config import info_logger
 
 
@@ -181,7 +182,7 @@ async def cmd_calc(message: Message):
         user_info["norm_calories"] = 10 * int(user_info["weight"]) + 6.25 * int(user_info["height"]) - 5 * int(user_info["age"])
 
         await message.reply(
-            f"Ваши дневные нормы:\n"
+            f"Ваши дневные нормы на сегодня:\n"
             f"Норма воды: {user_info['norm_water']}\n"
             f"Норма калорий: {user_info['norm_calories']}\n"
         )
@@ -205,16 +206,29 @@ async def cmd_show_calc(message: Message):
 
 @router.message(Command("log_water"))
 async def cmd_log_water(message: Message):
+    user_id = message.from_user.id
+    user_info = user_data.get(user_id)
+
     if not len(user_data) == 0:
-        pass
+        amount = message.text
+        user_info["norm_water"] -= int(amount)
+
+        await message.reply(f"Осталось выпить {user_info["norm_water"]}")
     else:
         await message.reply("Вы не ввели свои данные!")
 
 
 @router.message(Command("log_food"))
 async def cmd_log_food(message: Message):
+
+    user_id = message.from_user.id
+    user_info = user_data.get(user_id)
+
     if not len(user_data) == 0:
-        pass
+        cals = get_food_info(message.text)
+        user_info["norm_calories"] -= float(cals["calories"])
+
+        await message.reply(f"Вы съели {cals["name"]}, осталось съесть {cals["calories"]}")
     else:
         await message.reply("Вы не ввели свои данные!")
 

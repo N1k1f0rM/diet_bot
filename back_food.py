@@ -20,3 +20,6 @@ def get_food_info(product_name: str) -> Dict[str, Any]:
         return None
     error_logger.error(f"Для запроса {url} Ошибка: {response.status_code}")
     return None
+
+
+print(get_food_info("Apple pie"))

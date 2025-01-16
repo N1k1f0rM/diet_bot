@@ -9,6 +9,7 @@ class Profile(StatesGroup):
     activity = State()
     city = State()
     aim = State()
+    weather = State()
 
 
 class NormalDiet(StatesGroup):
