@@ -197,7 +197,7 @@ async def cmd_show_calc(message: Message):
 
     if user_info:
         await message.reply(
-            f"Ваши дневные нормы:\n"
+            f"На сегодня вам осталось:\n"
             f"Норма воды: {user_info['norm_water']}\n"
             f"Норма калорий: {user_info['norm_calories']}\n")
     else:
@@ -225,7 +225,7 @@ async def cmd_log_food(message: Message):
     user_info = user_data.get(user_id)
 
     if not len(user_data) == 0:
-        cals = get_food_info(message.text)
+        cals = get_food_info(message.text.split()[1])
         user_info["norm_calories"] -= float(cals["calories"])
 
         await message.reply(f"Вы съели {cals["name"]}, осталось съесть {cals["calories"]}")
