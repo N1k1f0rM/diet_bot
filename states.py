@@ -10,16 +10,5 @@ class Profile(StatesGroup):
     city = State()
     aim = State()
     weather = State()
-
-
-class NormalDiet(StatesGroup):
-    water_norm = State()
-    calories_norm = State()
-
-
-class Water(StatesGroup):
-    volume = State()
-
-
-class Calories(StatesGroup):
-    calorie = State()
+    norm_water = State()
+    norm_calories = State()

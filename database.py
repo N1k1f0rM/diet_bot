@@ -19,9 +19,11 @@ async def db_start():
     db.commit()
 
 
-async def add_user():
+async def add_user(name: str, age: int, weight: int, height: int,
+                   activity: str, city: str, aim: str, weather: float,
+                   norm_water: int, norm_calories: int):
     cr.execute("INSERT INTO accounts "
                "(name, age, weight, height, activity, city, aim, weather, norm_water, norm_calories)"
-               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                (name, age, weight, height, activity, city, aim, weather, norm_water, norm_calories))
     db.commit()
