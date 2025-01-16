@@ -145,19 +145,6 @@ async def process_city(message: Message, state: FSMContext):
         f"Погода у вас: {weather}"
     )
 
-    await add_user(
-        name=name,
-        age=age,
-        weight=weight,
-        height=height,
-        activity=activity,
-        city=city,
-        aim=aim,
-        weather=weather,
-        norm_water=norm_water,
-        norm_calories=norm_calories
-    )
-
     await state.clear()
 
 
