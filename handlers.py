@@ -4,6 +4,7 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from states import Profile
 from back_weather import current_temp
+from config import info_logger
 
 
 router = Router()
@@ -168,6 +169,8 @@ async def cmd_calc(message: Message):
 
     user_id = message.from_user.id
     user_info = user_data.get(user_id)
+
+    info_logger.info(f"{user_id} and {user_info}")
 
     if user_info:
         if user_info["weather"] >= 25.0:
