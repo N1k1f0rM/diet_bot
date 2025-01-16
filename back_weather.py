@@ -19,7 +19,7 @@ def get_cords(city: str) -> Optional[Tuple[float, float]]:
     error_logger.error(f"Ошибка {e}")
 
 
-def current_temp(city: str) -> float:
+async def current_temp(city: str) -> float:
   try:
 
     lat, lon = get_cords(city)

@@ -51,7 +51,7 @@ async def process_age(message: Message, state: FSMContext):
 
 
 @router.message(Profile.weight)
-async def process_age(message: Message, state: FSMContext):
+async def process_weight(message: Message, state: FSMContext):
 
     if not message.text.isdigit():
         await message.reply("Пожалуйста, введите корректный вес (только цифры).")
@@ -64,7 +64,7 @@ async def process_age(message: Message, state: FSMContext):
 
 
 @router.message(Profile.height)
-async def process_age(message: Message, state: FSMContext):
+async def process_height(message: Message, state: FSMContext):
 
     if not message.text.isdigit():
         await message.reply("Пожалуйста, введите корректный рост (только цифры).")
@@ -77,7 +77,7 @@ async def process_age(message: Message, state: FSMContext):
 
 
 @router.message(Profile.activity)
-async def process_age(message: Message, state: FSMContext):
+async def process_activity(message: Message, state: FSMContext):
 
     if not message.text.isdigit():
         await message.reply("Пожалуйста, корректно введите часы (только цифры).")
@@ -89,7 +89,7 @@ async def process_age(message: Message, state: FSMContext):
 
 
 @router.message(Profile.aim)
-async def process_age(message: Message, state: FSMContext):
+async def process_aim(message: Message, state: FSMContext):
 
     if not message.text.isdigit():
         await message.reply("Пожалуйста, корректно введите калории (только цифры).")
@@ -116,7 +116,7 @@ async def process_city(message: Message, state: FSMContext):
     activity = data.get("activity")
     aim = data.get("aim")
     city = message.text
-    weather =  current_temp(city)
+    weather = await current_temp(city)
     norm_water = 0
     norm_calories = 0
 
