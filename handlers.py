@@ -6,6 +6,7 @@ from states import Profile
 from back_weather import current_temp
 from back_food import get_food_info
 from config import info_logger
+from database import add_user
 
 
 router = Router()
@@ -116,6 +117,8 @@ async def process_city(message: Message, state: FSMContext):
     aim = data.get("aim")
     city = message.text
     weather =  current_temp(city)
+    norm_water = 0
+    norm_calories = 0
 
     user_data[message.from_user.id] = {
         "name": name,
@@ -140,6 +143,19 @@ async def process_city(message: Message, state: FSMContext):
         f"Город: {city}\n"
         f"Цель: {aim}\n"
         f"Погода у вас: {weather}"
+    )
+
+    await add_user(
+        name=name,
+        age=age,
+        weight=weight,
+        height=height,
+        activity=activity,
+        city=city,
+        aim=aim,
+        weather=weather,
+        norm_water=norm_water,
+        norm_calories=norm_calories
     )
 
     await state.clear()
