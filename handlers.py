@@ -133,7 +133,8 @@ async def process_city(message: Message, state: FSMContext):
         "norm_calories": 0
     }
 
-    await add_user(name, int(age), int(weight), int(height), activity, city, aim, weather, norm_water, norm_calories)
+    await add_user(name, int(age), int(weight), int(height), int(activity),
+                   city, int(aim), float(weather), int(norm_water), int(norm_calories))
 
     await message.reply(
         f"Спасибо за информацию!\n"
