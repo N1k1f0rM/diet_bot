@@ -210,7 +210,7 @@ async def cmd_log_water(message: Message):
     user_info = user_data.get(user_id)
 
     if not len(user_data) == 0:
-        amount = message.text
+        amount = int(message.text.split()[1])
         user_info["norm_water"] -= int(amount)
 
         await message.reply(f"Осталось выпить {user_info["norm_water"]}")
