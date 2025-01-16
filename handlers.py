@@ -113,6 +113,7 @@ async def process_city(message: Message, state: FSMContext):
     activity = data.get("activity")
     aim = data.get("aim")
     city = message.text
+    weather =  current_temp(city)
 
     user_data[message.from_user.id] = {
         "name": name,
@@ -136,6 +137,7 @@ async def process_city(message: Message, state: FSMContext):
         f"Уровень активности: {activity}\n"
         f"Город: {city}\n"
         f"Цель: {aim}\n"
+        f"Погода у вас: {weather}"
     )
 
     await state.clear()
@@ -168,7 +170,7 @@ async def cmd_calc(message: Message):
     user_info = user_data.get(user_id)
 
     if user_info:
-        if current_temp(user_info["weather"]) >= 25.0:
+        if user_info["weather"] >= 25.0:
             user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"] - 1000
         else:
             user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"]
