@@ -1,4 +1,3 @@
-import aiohttp
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
@@ -114,8 +113,6 @@ async def process_city(message: Message, state: FSMContext):
     activity = data.get("activity")
     aim = data.get("aim")
     city = message.text
-    norm_water = 0
-    norm_calories = 0
 
     user_data[message.from_user.id] = {
         "name": name,
@@ -125,7 +122,9 @@ async def process_city(message: Message, state: FSMContext):
         "activity": activity,
         "city": city,
         "aim": aim,
-
+        "weather": current_temp(city),
+        "norm_water": 0,
+        "norm_calories": 0
     }
 
     await message.reply(
@@ -137,7 +136,6 @@ async def process_city(message: Message, state: FSMContext):
         f"Уровень активности: {activity}\n"
         f"Город: {city}\n"
         f"Цель: {aim}\n"
-        f"Всё праивильно?"
     )
 
     await state.clear()
@@ -170,7 +168,7 @@ async def cmd_calc(message: Message):
     user_info = user_data.get(user_id)
 
     if user_info:
-        if current_temp(user_info["city"]) >= 25.0:
+        if current_temp(user_info["weather"]) >= 25.0:
             user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"] - 1000
         else:
             user_info["norm_water"] = user_info["weight"] * 30 + 500 * user_info["activity"]
