@@ -12,3 +12,13 @@ class Profile(StatesGroup):
     weather = State()
     norm_water = State()
     norm_calories = State()
+
+
+class Food(StatesGroup):
+    food_name = State()
+    weight = State()
+
+
+class Workout(StatesGroup):
+    wotype = State()
+    wait = State()

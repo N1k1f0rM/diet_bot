@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from states import Profile
+from states import Profile, Food, Workout
 from back_weather import current_temp
 from back_food import get_food_info
 from config import info_logger
@@ -216,19 +216,77 @@ async def cmd_log_water(message: Message):
         await message.reply("Вы не ввели свои данные!")
 
 
+# @router.message(Command("log_food"))
+# async def cmd_log_food(message: Message, state: FSMContext):
+#
+#     user_id = message.from_user.id
+#     user_info = user_data.get(user_id)
+#
+#     if user_info:
+#         food_name = message.text.split()[1]
+#         cals = get_food_info(food_name)
+#         await state.update_data(food_name=food_name, calories=cals["calories"])
+#         await message.reply(f"{cals['name']} — {cals['calories']} ккал на 100 г. Сколько грамм вы съели?")
+#
+#         await Food().wait.set()
+#
+#     else:
+#         await message.reply("Вы не ввели свои данные!")
+
+
 @router.message(Command("log_food"))
-async def cmd_log_food(message: Message):
+async def cmd_log_food(message: Message, state: FSMContext):
+    await message.reply("Что вы съели?")
+    await state.set_state(Food.food_name)
+
+
+@router.message(Food.food_name)
+async def name_input(message: Message, state: FSMContext):
+
+    await state.update_data(message.text)
+    await message.reply(f"Сколько грамм вы съели?")
+    await state.set_state(Food.weight)
+
+    # user_id = message.from_user.id
+    # user_info = user_data.get(user_id)
+    #
+    # if user_info:
+    #     weight = float(message.text)
+    #     data = await state.get_data()
+    #     calories_per_100g = data.get('calories')
+    #
+    #     calories_consumed = (calories_per_100g / 100) * weight
+    #     user_info["norm_calories"] -= calories_consumed
+    #
+    #     await message.reply(f"Записано: {calories_consumed:.1f} ккал.")
+    #     await state.clear()
+    # else:
+    #     await message.reply("Произошла ошибка. Попробуйте снова.")
+
+
+@router.message(Food.weight)
+async def weight_input(message: Message, state:FSMContext):
+    await  state.update_data(message.text)
 
     user_id = message.from_user.id
     user_info = user_data.get(user_id)
 
-    if not len(user_data) == 0:
-        cals = get_food_info(message.text.split()[1])
-        user_info["norm_calories"] -= float(cals["calories"])
+    if user_info:
+        data = await state.get_data()
 
-        await message.reply(f"Вы съели {cals["name"]}, осталось съесть {user_info["norm_calories"]}")
+        food_name = data.get('food_name')
+        weight = data.get('weight')
+
+        calories = get_food_info(food_name)
+
+        calories_consumed = (calories['calories'] / 100) * float(weight)
+        user_info["norm_calories"] -= calories_consumed
+
+        await message.reply(f"Записано: {calories_consumed:.1f} ккал.")
+        await state.clear()
     else:
-        await message.reply("Вы не ввели свои данные!")
+        await message.reply("Произошла ошибка. Попробуйте снова.")
+
 
 
 @router.message(Command("log_workout"))
