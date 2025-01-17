@@ -115,9 +115,7 @@ async def process_city(message: Message, state: FSMContext):
     activity = data.get("activity")
     aim = data.get("aim")
     city = message.text
-    weather = await current_temp(city)
-    norm_water = 0
-    norm_calories = 0
+    weather = current_temp(city)
 
     user_data[message.from_user.id] = {
         "name": name,
@@ -128,8 +126,6 @@ async def process_city(message: Message, state: FSMContext):
         "city": city,
         "aim": aim,
         "weather": current_temp(city),
-        "norm_water": 0,
-        "norm_calories": 0
     }
 
     await message.reply(
