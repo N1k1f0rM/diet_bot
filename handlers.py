@@ -6,7 +6,6 @@ from states import Profile
 from back_weather import current_temp
 from back_food import get_food_info
 from config import info_logger
-from database import add_user
 
 
 router = Router()
