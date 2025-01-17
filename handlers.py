@@ -275,11 +275,12 @@ async def input_time(message: Message, state: FSMContext):
     user_info = user_data.get(user_id)
 
     data = await state.get_data()
+    name = await data.get("wotype")
     timing = float(data.get("time"))
 
     if user_info:
         user_info["norm_calories"] += 10 * timing
-        await message.reply(f"Вы сожгли {timing}, придётся доесть {10 * timing} калорий")
+        await message.reply(f"Вы {name} {timing} минут, придётся доесть {10 * timing} калорий")
         await state.clear()
     else:
         await message.reply("Вы не ввели свои данные!")
