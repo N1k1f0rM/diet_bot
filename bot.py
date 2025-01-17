@@ -24,7 +24,7 @@ async def send_daily_norms(bot: Bot):
             print(f"Error sending daily norms to user {user_id}: {e}")
 
 
-scheduler.add_job(send_daily_norms, CronTrigger(hour=0, minute=25, timezone=tz.gettz("Europe/Moscow")))
+scheduler.add_job(send_daily_norms, CronTrigger(hour=0, minute=46, timezone=tz.gettz("Europe/Moscow")))
 
 
 async def set_comands(bots: Bot):
