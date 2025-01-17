@@ -5,6 +5,7 @@ from config import Secrets
 from handlers import router, user_data, cmd_calc
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+from dateutil import tz
 
 bot = Bot(token=Secrets.BOT_TOKEN)
 dp = Dispatcher()
@@ -41,7 +42,7 @@ async def main():
     scheduler = AsyncIOScheduler()
     scheduler.add_job(
         send_daily_calculation,
-        trigger=CronTrigger(hour=23, minute=38),
+        trigger=CronTrigger(hour=23, minute=45, timezone=tz.gettz('Europe/Moscow')),
         kwargs={'bot': bot, 'user_data': user_data}
     )
 
