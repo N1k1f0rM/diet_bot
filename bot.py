@@ -16,15 +16,15 @@ dp.include_router(router)
 
 scheduler = AsyncIOScheduler()
 
-async def send_daily_norms(bot: Bot):
+async def send_daily_norms(bott: Bot):
     for user_id in user_data.keys():
         try:
-            await bot.send_message(user_id, await cmd_calc(user_id)) # send message
+            await bott.send_message(user_id, await cmd_calc(user_id)) # send message
         except Exception as e:
             print(f"Error sending daily norms to user {user_id}: {e}")
 
 
-scheduler.add_job(send_daily_norms, CronTrigger(hour=0, minute=51, timezone=tz.gettz("Europe/Moscow")))
+scheduler.add_job(send_daily_norms, CronTrigger(hour=0, minute=56, timezone=tz.gettz("Europe/Moscow")))
 
 
 async def set_comands(bots: Bot):
