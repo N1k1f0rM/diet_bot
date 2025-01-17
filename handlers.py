@@ -243,7 +243,7 @@ async def cmd_log_food(message: Message, state: FSMContext):
 @router.message(Food.food_name)
 async def name_input(message: Message, state: FSMContext):
 
-    await state.update_data(message.text)
+    await state.update_data(food_name=message.text)
     await message.reply(f"Сколько грамм вы съели?")
     await state.set_state(Food.weight)
 
@@ -266,7 +266,7 @@ async def name_input(message: Message, state: FSMContext):
 
 @router.message(Food.weight)
 async def weight_input(message: Message, state:FSMContext):
-    await  state.update_data(message.text)
+    await  state.update_data(weight=message.text)
 
     user_id = message.from_user.id
     user_info = user_data.get(user_id)
