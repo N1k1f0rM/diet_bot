@@ -41,7 +41,7 @@ async def main():
     scheduler = AsyncIOScheduler()
     scheduler.add_job(
         send_daily_calculation,
-        trigger=CronTrigger(hour=0, minute=1),
+        trigger=CronTrigger(hour=23, minute=38),
         kwargs={'bot': bot, 'user_data': user_data}
     )
 
