@@ -16,7 +16,7 @@ user_data = {}
 async def cmd_start(message: Message, state: FSMContext):
 
     global user_data
-    user_data = {}
+    user_data[message.from_user.id] = {}
     await message.reply("Привет, рады вас видеть, как вас зовут?")
     await state.set_state(Profile.name)
 
