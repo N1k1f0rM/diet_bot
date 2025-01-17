@@ -16,14 +16,15 @@ dp.include_router(router)
 
 scheduler = AsyncIOScheduler()
 
-async def send_daily_norms():
+async def send_daily_norms(bot: Bot):
     for user_id in user_data.keys():
-        message = Message(from_user=User(id=user_id), chat=Chat(id=user_id))
-        await cmd_calc(message)
+        try:
+            await bot.send_message(user_id, await cmd_calc(user_id)) # send message
+        except Exception as e:
+            print(f"Error sending daily norms to user {user_id}: {e}")
 
 
-scheduler.add_job(send_daily_norms, CronTrigger(hour=0, minute=25))
-scheduler.start()
+scheduler.add_job(send_daily_norms, CronTrigger(hour=0, minute=25, timezone=tz.gettz("Europe/Moscow")))
 
 
 async def set_comands(bots: Bot):
@@ -45,8 +46,9 @@ async def set_comands(bots: Bot):
 
 async def main():
     await set_comands(bot)
-    scheduler.start()
+    scheduler.add_job(send_daily_norms, CronTrigger(hour=0, minute=33, timezone=tz.gettz("Europe/Moscow")), args=(bot,))
     await dp.start_polling(bot)
+    scheduler.start()
 
 
 if __name__ == "__main__":
