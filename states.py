@@ -21,4 +21,4 @@ class Food(StatesGroup):
 
 class Workout(StatesGroup):
     wotype = State()
-    wait = State()
+    time = State()
