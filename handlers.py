@@ -172,7 +172,7 @@ async def cmd_calc(message: Message):
     info_logger.info(f"{user_id} and {user_info}")
 
     if user_info:
-        if user_info["weather"] >= 25.0:
+        if current_temp(user_info["city"]) >= 25.0:
             user_info["norm_water"] = int(user_info["weight"]) * 30 + 500 * int(user_info["activity"]) - 1000
         else:
             user_info["norm_water"] = int(user_info["weight"]) * 30 + 500 * int(user_info["activity"])
