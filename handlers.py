@@ -233,7 +233,16 @@ async def cmd_log_food(message: Message):
 
 @router.message(Command("log_workout"))
 async def cmd_log_workout(message: Message):
+
+    user_id = message.from_user.id
+    user_info = user_data.get(user_id)
+
     if not len(user_data) == 0:
-        pass
+
+        cals = message.text.split()[1]
+        user_info["norm_calories"] += float(cals)
+
+        await message.reply(f"Вы натренировали {cals}, придётся доесть {user_info["norm_calories"]}")
+
     else:
         await message.reply("Вы не ввели свои данные!")
