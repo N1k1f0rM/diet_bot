@@ -1,11 +1,14 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand, MenuButtonCommands, Message
+from aiogram.types.user import User
+from aiogram.types.chat import Chat
 from config import Secrets
 from handlers import router, user_data, cmd_calc
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from dateutil import tz
+
 
 bot = Bot(token=Secrets.BOT_TOKEN)
 dp = Dispatcher()
@@ -31,11 +34,12 @@ async def set_comands(bots: Bot):
 
 async def send_daily_calculation(bot: Bot, user_data: dict):
     for user_id, user_info in user_data.items():
-        message = type('Message', (), {'from_user': type('FromUser', (), {'id': user_id})(), 'chat': type('Chat', (), {'id': user_id})()})
-        try:
-            await cmd_calc(message)
-        except Exception as e:
-            print(e)
+        user = User(id=user_id, is_bot=False, first_name="User")
+        chat = Chat(id=user_id, type="private")
+        message = Message(message_id=1, from_user=user, chat=chat)
+
+        await cmd_calc(message)
+
 
 
 async def main():
