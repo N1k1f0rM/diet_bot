@@ -2,12 +2,16 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand, MenuButtonCommands
 from config import Secrets
-from handlers import router, user_data
+from handlers import router, cmd_calc
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 
 bot = Bot(token=Secrets.BOT_TOKEN)
 dp = Dispatcher()
 dp.include_router(router)
+scheduler = AsyncIOScheduler()
+
+scheduler.add_job(cmd_calc, "interval", seconds=15, args=(dp,))
 
 
 async def set_comands(bots: Bot):
@@ -30,6 +34,7 @@ async def set_comands(bots: Bot):
 async def main():
     await set_comands(bot)
     await dp.start_polling(bot)
+    scheduler.start()
 
 
 if __name__ == "__main__":
