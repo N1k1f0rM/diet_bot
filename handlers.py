@@ -14,7 +14,8 @@ user_data = {}
 
 @router.message(Command("start"))
 async def cmd_start(message: Message, state: FSMContext):
-
+    global user_data
+    user_data = {}
     await message.reply("Привет, рады вас видеть, как вас зовут?")
     await state.set_state(Profile.name)
 
