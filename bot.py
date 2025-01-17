@@ -19,7 +19,6 @@ async def set_comands(bots: Bot):
         BotCommand(command="log_water", description="Внести кол-во выпитой воды"),
         BotCommand(command="log_food", description="Внести еду"),
         BotCommand(command="log_workout", description="Записать тренировку"),
-        BotCommand(command="check_progress", description="Посмотреть прогресс на сегодня")
     ]
 
     await bots.set_my_commands(commands)

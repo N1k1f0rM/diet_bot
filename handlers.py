@@ -254,23 +254,6 @@ async def weight_input(message: Message, state:FSMContext):
         await message.reply("Произошла ошибка. Попробуйте снова.")
 
 
-
-# @router.message(Command("log_workout"))
-# async def cmd_log_workout(message: Message):
-#
-#     user_id = message.from_user.id
-#     user_info = user_data.get(user_id)
-#
-#     if not len(user_data) == 0:
-#
-#         cals = message.text.split()[1]
-#         user_info["norm_calories"] += float(cals)
-#
-#         await message.reply(f"Вы натренировали {cals}, придётся доесть {user_info["norm_calories"]}")
-#
-#     else:
-#         await message.reply("Вы не ввели свои данные!")
-
 @router.message(Command("log_workout"))
 async def cnd_log_workout(message: Message, state: FSMContext):
     await state.set_state(Workout.wotype)
@@ -284,18 +267,17 @@ async def input_wotype(message: Message, state: FSMContext):
     await state.set_state(Workout.time)
 
 
-@router.message(Workout.wotype)
-async def input_wotype(message: Message, state: FSMContext):
+@router.message(Workout.time)
+async def input_time(message: Message, state: FSMContext):
     await state.update_data(time=message.text)
 
     user_id = message.from_user.id
     user_info = user_data.get(user_id)
 
     data = await state.get_data()
-    name = data.get("wotype")
     timing = float(data.get("time"))
 
-    if not len(user_data) == 0:
+    if user_info:
         user_info["norm_calories"] += 10 * timing
         await message.reply(f"Вы сожгли {timing}, придётся доесть {10 * timing} калорий")
         await state.clear()
