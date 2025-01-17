@@ -1,17 +1,14 @@
 import asyncio
 from aiogram import Bot, Dispatcher
-from aiogram.types import BotCommand, MenuButtonCommands
+from aiogram.types import BotCommand, MenuButtonCommands, Message
 from config import Secrets
-from handlers import router, cmd_calc
+from handlers import router, user_data, cmd_calc
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-
+from apscheduler.triggers.cron import CronTrigger
 
 bot = Bot(token=Secrets.BOT_TOKEN)
 dp = Dispatcher()
 dp.include_router(router)
-scheduler = AsyncIOScheduler()
-
-scheduler.add_job(cmd_calc, "interval", seconds=15, args=(dp,))
 
 
 async def set_comands(bots: Bot):
@@ -31,10 +28,27 @@ async def set_comands(bots: Bot):
     await  bots.set_chat_menu_button(menu_button=menu_buttons)
 
 
+async def send_daily_calculation(bot: Bot, user_data: dict):
+    for user_id, user_info in user_data.items():
+        message = type('Message', (), {'from_user': type('FromUser', (), {'id': user_id})(), 'chat': type('Chat', (), {'id': user_id})()})
+        try:
+            await cmd_calc(message)
+        except Exception as e:
+            print(e)
+
+
 async def main():
+    scheduler = AsyncIOScheduler()
+    scheduler.add_job(
+        send_daily_calculation,
+        trigger=CronTrigger(hour=0, minute=1),
+        kwargs={'bot': bot, 'user_data': user_data}
+    )
+
+    scheduler.start()
+
     await set_comands(bot)
     await dp.start_polling(bot)
-    scheduler.start()
 
 
 if __name__ == "__main__":
