@@ -12,8 +12,9 @@ load_dotenv()
 class Secrets:
     BOT_TOKEN: str = os.environ.get("BOT_TOKEN")
     WEATHER_TOKEN: str = os.environ.get("API_WEATHER_TOKEN")
-    FOOD_TOKEN: str = os.environ.get("API_FOOD_TOKEN")
-
+    POSTGRES_USER: str = os.environ.get("POSTGRES_USER")
+    POSTGRES_PASSWORD: str = os.environ.get("POSTGRES_PASSWORD")
+    POSTGRES_DB: str = os.environ.get("POSTGRES_DB")
 
 def setup_loggers(logger_path):
 

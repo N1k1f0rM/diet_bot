@@ -1,13 +1,21 @@
 import asyncio
+import os
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand, MenuButtonCommands
 from config import Secrets
 from handlers import router
+import asyncpg
 
+
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 bot = Bot(token=Secrets.BOT_TOKEN)
 dp = Dispatcher()
 dp.include_router(router)
+
+
+async def init_db():
+    return await asyncpg.connect(DATABASE_URL)
 
 
 async def set_comands(bots: Bot):
@@ -28,8 +36,12 @@ async def set_comands(bots: Bot):
 
 
 async def main():
-    await set_comands(bot)
-    await dp.start_polling(bot)
+    try:
+        await set_comands(bot)
+        await dp.start_polling(bot)
+        db = await init_db()
+    finally:
+        await bot.session.close()
 
 
 if __name__ == "__main__":
